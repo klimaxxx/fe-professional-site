@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    @apply bg-[#0D1117] text-[#C9D1D9];
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium leading-tight;
+  }
+  
+  code, .font-mono {
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+}
+
+@layer components {
+  /* Terminal styling */
+  .terminal {
+    @apply bg-[#161B22] rounded-lg overflow-hidden shadow-xl border border-[#30363D];
+  }
+  
+  .terminal-header {
+    @apply bg-[#0D1117] px-4 py-2 flex items-center border-b border-[#30363D];
+  }
+  
+  .terminal-body {
+    @apply p-4 font-mono text-[#C9D1D9] overflow-auto;
+  }
+  
+  /* Animations */
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Make form elements consistent */
+  input, textarea, select {
+    @apply bg-[#0D1117] border border-[#30363D] rounded-md px-3 py-2 text-[#C9D1D9] focus:outline-none focus:border-[#2F81F7] w-full;
+  }
+  
+  button {
+    @apply focus:outline-none;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363D;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B949E;
+}
