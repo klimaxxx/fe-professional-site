@@ -1,21 +1,13 @@
-name: trivy
+name: Build and Scan Docker Image
 
 on:
-  push:
-    branches: [ "developer" ]
-
-permissions:
-  contents: read
+  pull_request:
+    branches:
+      - developer # ou a branch que você está criando o PR
 
 jobs:
-  scan-docker:
-    name: Scan Docker Image with Trivy
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read                # Necessário para actions/checkout
-      security-events: write       # Para enviar resultados para o Security tab
-      actions: read                # Necessário para repositórios privados
 
     steps:
       - name: Checkout code
@@ -25,8 +17,8 @@ jobs:
         run: |
           docker build -t my-app:${{ github.sha }} .
 
-      - name: Scan image with Trivy
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.0.0
         with:
           image-ref: 'my-app:${{ github.sha }}'
           format: 'template'
