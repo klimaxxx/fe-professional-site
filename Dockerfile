@@ -4,7 +4,8 @@ FROM node:20-alpine as build
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm install --production && npm cache clean --force
+# Instala todas as dependências (incluindo devDependencies)
+RUN npm install && npm cache clean --force
 COPY . .
 RUN npm run build
 
