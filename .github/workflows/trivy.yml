@@ -1,0 +1,40 @@
+name: trivy
+
+on:
+  push:
+    branches: [ "developer" ]
+
+permissions:
+  contents: read
+
+jobs:
+  scan-docker:
+    name: Scan Docker Image with Trivy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read                # Necessário para actions/checkout
+      security-events: write       # Para enviar resultados para o Security tab
+      actions: read                # Necessário para repositórios privados
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t my-app:${{ github.sha }} .
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        with:
+          image-ref: 'my-app:${{ github.sha }}'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
