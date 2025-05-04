@@ -1,3 +1,4 @@
+
 name: security-scan
 
 on:
@@ -14,13 +15,13 @@ jobs:
       contents: read
       security-events: write
       actions: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t my-app:${{ github.sha }} .
+
 
       - name: Run Trivy vulnerability scanner (SARIF)
         uses: aquasecurity/trivy-action@v0.28.0
